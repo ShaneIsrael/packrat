@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import socketIOClient from 'socket.io-client'
 import Container from "@material-ui/core/Container"
 import Typography from "@material-ui/core/Typography"
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,10 +11,11 @@ import Navbar from "../components/navigation/Navbar"
 import SftpSetup from "../components/sftp/SftpSetup"
 import Grid from "@material-ui/core/Grid"
 
+import API from "../services/Api"
+import SomeService from "../services/SomeService"
+
 const pcolors = [amber, blue, blueGrey, brown, cyan, deepPurple, green, grey, indigo, lightGreen, lime, orange, teal, yellow, red, lightBlue, deepOrange,  pink]
 const scolors = [amber, blue, blueGrey, brown, cyan, deepPurple, green, grey, indigo, lightGreen, lime, orange, teal, yellow, red, lightBlue, deepOrange,  pink]
-
-
 
 const pcolIndex = Math.floor(Math.random() * pcolors.length)
 const scolIndex = Math.floor(Math.random() * pcolors.length)
@@ -43,8 +45,18 @@ class Dashboard extends Component {
         super()
         let darkThemeCookie = cookies.get('darkThemeEnabled')
         this.state = {
-            darkTheme: darkThemeCookie === 'true'
+            darkTheme: darkThemeCookie === 'true',
+            wsEndpoint: "http://127.0.0.1:8081",
+            wsResponse: false,
         }
+    }
+    componentDidMount = async () => {
+      const { wsEndpoint } = this.state
+      const socket = socketIOClient(wsEndpoint)
+      socket.on('connected', data => this.setState({wsResponse: data}))
+      socket.on('data', data => console.log(data))
+
+      SomeService.get()
     }
     toggleDarkTheme = () => {
         cookies.set('darkThemeEnabled', !this.state.darkTheme)
@@ -54,6 +66,8 @@ class Dashboard extends Component {
         return this.state.darkTheme
     }
     render() {
+        const { wsResponse } = this.state
+        console.log(wsResponse)
         return (
             <MuiThemeProvider theme={this.state.darkTheme ? darkTheme : lightTheme}>
                 <CssBaseline/>

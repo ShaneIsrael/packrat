@@ -1,7 +1,8 @@
-const { register, login, someFunction } = require('../controllers/')
 const { registerPolicy } = require('../policies/')
 
-module.exports = (app) => {
+module.exports = (app, io) => {
+  const { register, login, someFunction } = require('../controllers/')(io)
+  
   app.post('/register', registerPolicy, register)
   app.post('/login', login)
   app.get('/someRoute', someFunction)

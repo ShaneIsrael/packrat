@@ -1,4 +1,4 @@
-const User = require('../models_bak')
+const User = require('../models')
 
 const service = {}
 

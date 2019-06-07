@@ -6,7 +6,6 @@ import TextField from '@material-ui/core/TextField'
 import { Paper, Grid, Typography, Button, Fab } from '@material-ui/core'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import SaveIcon from '@material-ui/icons/Save'
-import amber from '@material-ui/core/colors/amber';
 import CheckIcon from '@material-ui/icons/Check';
 import LinearProgress from '@material-ui/core/LinearProgress';
 

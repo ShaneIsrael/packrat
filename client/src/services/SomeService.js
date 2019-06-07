@@ -1,7 +1,9 @@
 import Api from './Api'
 
-export default {
-  get() {
-    return Api.get(`/someRoute`)
-  }
+const service = {}
+
+service.get = () => {
+  return Api.get(`/someRoute`)
 }
+
+export default service
