@@ -2,7 +2,7 @@ import Api from './Api'
 
 const service = {}
 
-service.get = () => {
+service.get = async () => {
   return Api.get(`/someRoute`)
 }
 

@@ -11,7 +11,6 @@ import Navbar from "../components/navigation/Navbar"
 import SftpSetup from "../components/sftp/SftpSetup"
 import Grid from "@material-ui/core/Grid"
 
-import API from "../services/Api"
 import SomeService from "../services/SomeService"
 
 const pcolors = [amber, blue, blueGrey, brown, cyan, deepPurple, green, grey, indigo, lightGreen, lime, orange, teal, yellow, red, lightBlue, deepOrange,  pink]
@@ -26,7 +25,7 @@ const darkTheme = createMuiTheme({
     primary: pcolors[pcolIndex],
     secondary: scolors[scolIndex]
   }
-});
+})
 
 const lightTheme = createMuiTheme({
     palette: {
@@ -34,7 +33,7 @@ const lightTheme = createMuiTheme({
       primary: pcolors[pcolIndex],
       secondary: scolors[scolIndex]
     }
-});
+})
 
 
 const cookies = new Cookies()
@@ -54,9 +53,12 @@ class Dashboard extends Component {
       const { wsEndpoint } = this.state
       const socket = socketIOClient(wsEndpoint)
       socket.on('connected', data => this.setState({wsResponse: data}))
-      socket.on('data', data => console.log(data))
+      socket.on('data', data => {
+        console.log(data)
+      })
 
-      SomeService.get()
+      let response = await SomeService.get()
+      console.log(response.data)
     }
     toggleDarkTheme = () => {
         cookies.set('darkThemeEnabled', !this.state.darkTheme)

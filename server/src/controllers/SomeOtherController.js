@@ -1,6 +1,7 @@
+
 module.exports = (io) => {
   // eslint-disable-next-line global-require
-  const { someServiceFunction } = require('../services')(io)
+  const { someServiceFunction, someServiceCreateEvent } = require('../services')(io)
 
   const controller = {}
   /**
@@ -10,6 +11,15 @@ module.exports = (io) => {
     try {
       await someServiceFunction()
       return res.send('some data object or message or nothing.')
+    } catch (err) {
+      return next(err)
+    }
+  }
+
+  controller.postEvent = async (req, res, next) => {
+    try {
+      const event = await someServiceCreateEvent(req.body)
+      return res.status(200).send(event)
     } catch (err) {
       return next(err)
     }
